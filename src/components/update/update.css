@@ -71,10 +71,6 @@ form {
   font-weight: 500;
 }
 
-.updateButton:disabled{
-  cursor: not-allowed;
-  background-color: rgb(136, 168, 168);
-}
 
 .error{
   color: red;
