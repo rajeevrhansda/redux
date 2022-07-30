@@ -5,21 +5,21 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { } from '../../redux/userSlice'
-import {updateUser} from '../../redux/apiCalls.js'
+import { updateUser } from '../../redux/apiCalls.js'
 export default function Update() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const user = useSelector((state)=> state.user.userInfo);
+  const { userInfo, pending, error } = useSelector((state) => state.user);
   const dispatch = useDispatch()
 
-  const handleUpdate = (e)=>{
+  const handleUpdate = (e) => {
     e.preventDefault();
-    updateUser({name, email}, dispatch);
+    updateUser({ name, email }, dispatch);
   }
-const handleDelete = (e)=>{
-  e.preventDefault();
-  // dispatch(remove())
-}
+  const handleDelete = (e) => {
+    e.preventDefault();
+    // dispatch(remove())
+  }
 
   return (
     <div className="update">
@@ -45,7 +45,7 @@ const handleDelete = (e)=>{
               <input
                 className="formInput"
                 type="text"
-                placeholder={user.name}
+                placeholder={userInfo.name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -54,21 +54,24 @@ const handleDelete = (e)=>{
               <input
                 className="formInput"
                 type="text"
-                placeholder={user.email}
+                placeholder={userInfo.email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="formItem">
               <label>Password</label>
-              <input className="formInput" type="password" autoComplete="on"/>
+              <input className="formInput" type="password" autoComplete="on" />
             </div>
             <button
+              disabled={pending}
               className="updateButton"
               onClick={handleUpdate}
             >
               Update
             </button>
-            
+            {error && <span className="error">Something went wrong!</span>}
+            {pending === false && <span className="success">Account has been updated</span>}
+
           </form>
         </div>
       </div>
